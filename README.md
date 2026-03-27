@@ -236,3 +236,12 @@ k8s/
 | `imagePullPolicy: IfNotPresent` | Nécessaire pour utiliser les images locales chargées via kind |
 | Un fichier YAML par ressource | Lisibilité et alignement avec les pratiques du cours |
 | `REDIS_PASSWORD: ""` dans le ConfigMap | `DevRedisConfig.java` exige la présence de cette variable (NPE sinon) |
+
+## 9. Option de passage par Nginx pour centraliser les requêtes
+
+Pour simplifier la communication entre frontend et backend, une option intéressante consiste à passer toutes les requêtes API via Nginx. Cela permet :
+
+- Un point d’entrée unique pour toutes les APIs, éliminant la nécessité d’exposer plusieurs ports.
+- Une abstraction des services internes, le frontend ne connaît plus directement les adresses des microservices.
+
+J’ai tenté de configurer un `nginx.conf` pour router `/auth`, `/home`, `/tabs`, `/products` et `/payment`. Cela n’a pas fonctionné dans mon environnement actuel, mais reste une piste intéressante pour améliorer l’architecture.
