@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ecommerce-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ecommercedb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./server/common-data-service/src/main/resources/fake_data:/docker-entrypoint-initdb.d
+    networks:
+      - ecommerce-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ecommerce-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ecommerce-network
+
+  authentication-service:
+    build:
+      context: ./server/authentication-service
+    container_name: authentication-service
+    ports:
+      - "7000:8081"
+    environment:
+      - PORT=8081
+      - ACTIVE_PROFILE=dev
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_SCHEMA=ecommercedb
+      - DB_USER=root
+      - DB_PASS=password
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - ecommerce-network
+
+  common-data-service:
+    build:
+      context: ./server/common-data-service
+    container_name: common-data-service
+    ports:
+      - "9000:8082"
+    environment:
+      - PORT=8082
+      - ACTIVE_PROFILE=dev
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_SCHEMA=ecommercedb
+      - DB_USER=root
+      - DB_PASS=password
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - ecommerce-network
+
+  payment-service:
+    build:
+      context: ./server/payment-service
+    container_name: payment-service
+    ports:
+      - "9050:8083"
+    environment:
+      - PORT=8083
+      - ACTIVE_PROFILE=dev
+      - STRIPE_SECRET_KEY=sk_test_your_stripe_key_here
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - ecommerce-network
+
+  client:
+    build:
+      context: ./client
+    container_name: ecommerce-client
+    ports:
+      - "10000:80"
+    environment:
+      - REACT_APP_COMMON_DATA_SERVICE_URL=http://common-data-service:8082
+      - REACT_APP_AUTHENTICATION_SERVICE_URL=http://authentication-service:8081
+      - REACT_APP_PAYMENT_SERVICE_URL=http://payment-service:8083
+      - REACT_APP_SEARCH_SUGGESTION_SERVICE_URL=http://common-data-service:8082
+    depends_on:
+      - authentication-service
+      - common-data-service
+      - payment-service
+    networks:
+      - ecommerce-network
+
+volumes:
+  mysql_data:
+
+networks:
+  ecommerce-network:
+    driver: bridge

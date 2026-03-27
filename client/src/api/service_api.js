@@ -20,3 +20,7 @@ export const commonServiceAPI = axios.create({
 export const searchSuggestionServiceAPI = axios.create({
     baseURL: REACT_APP_SEARCH_SUGGESTION_SERVICE_URL || `http://localhost:${REACT_APP_SEARCH_SUGGESTION_SERVICE_PORT}`
 })
+
+export const paymentServiceAPI = axios.create({
+    baseURL: process.env.REACT_APP_PAYMENT_SERVICE_URL || `http://localhost:${process.env.REACT_APP_PAYMENT_SERVICE_PORT || 9050}`
+})
