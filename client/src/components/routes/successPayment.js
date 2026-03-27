@@ -9,6 +9,7 @@ import {
 } from "../../actions/types";
 import {DocumentTitle} from "../ui/documentTitle";
 import {GenericErrorMsg} from "../ui/error/GenericErrorMsg";
+import {handleImageError} from "../../helper/imageHelper";
 
 const resetStates = [RESET_ADD_TO_CART, RESET_CART_TOTAL, RESET_DELIVERY_CHARGES,
     RESET_PAYMENT_RESPONSE, RESET_SHIPPING_ADDRESS, RESET_SHIPPING_OPTION, RESET_SHOPPING_BAG_PRODUCTS]
@@ -86,7 +87,7 @@ export const SuccessPayment = () => {
 
             products.push(<Grid key={id} container spacing={2} style={{paddingTop: "2rem"}}>
                 <Grid item>
-                    <img src={product.imageURL}
+                    <img src={product.imageURL} onError={(e) => handleImageError(e, 'product')}
                          alt={product.name} style={{height: 100, width: 80}}/>
                 </Grid>
 

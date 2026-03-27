@@ -18,6 +18,7 @@ import {HTTPError} from "../ui/error/httpError";
 import PriceDetails from "./priceDetails";
 import _ from 'lodash';
 import Hidden from "@material-ui/core/Hidden";
+import {handleImageError} from "../../helper/imageHelper";
 import {useAddProductsToShoppingBag} from "../../hooks/useAddProductsToShoppingBag";
 import {CART_TOTAL_COOKIE, SHOPPERS_PRODUCT_INFO_COOKIE} from "../../constants/cookies";
 import {HOME_ROUTE} from "../../constants/react_routes";
@@ -158,7 +159,7 @@ function ShoppingBag(props) {
             shoppingBagProductsList.push(
                 <Grid item container key={product.id} style={{border: '1px solid #eaeaec', margin: "1rem 0"}}>
                     <Grid item container justify="center" xs={5} sm={3}>
-                        <img src={product.imageURL} alt={product.name}
+                        <img src={product.imageURL} alt={product.name} onError={(e) => handleImageError(e, 'product')}
                              style={{height: "90%", width: "80%", paddingTop: "1rem"}}/>
                     </Grid>
 

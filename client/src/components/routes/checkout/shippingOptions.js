@@ -15,6 +15,7 @@ import {
 } from "../../../actions/types";
 import {MONTHS} from "../../../constants/constants";
 import Button from "@material-ui/core/Button";
+import {handleImageError} from "../../../helper/imageHelper";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -176,6 +177,7 @@ export function ShippingOptions() {
             imageList.push(
                 <Grid key={id} item sm={2} style={{alignSelf: "center", paddingBottom: "1rem"}}>
                     <img key={product.id} src={product.imageURL}
+                         onError={(e) => handleImageError(e, 'product')}
                          alt={product.name} width="inherit" height={80}/>
                 </Grid>
             )

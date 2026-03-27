@@ -21,6 +21,7 @@ import {PRODUCT_BY_ID_DATA_API} from "../../../constants/api_routes";
 import {SHOPPERS_PRODUCT_INFO_COOKIE} from "../../../constants/cookies";
 import {HOME_ROUTE} from "../../../constants/react_routes";
 import {DocumentTitle} from "../../ui/documentTitle";
+import {handleImageError} from "../../../helper/imageHelper";
 
 export const useButtonStyles = makeStyles(() => ({
     buttonStartIcon: {
@@ -179,6 +180,7 @@ function ProductDetails(props) {
 
                 <Grid item container justify="center" sm={6} md={5} lg={4}>
                     <img src={selectedProduct.imageURL} alt={selectedProduct.name}
+                         onError={(e) => handleImageError(e, 'product')}
                          style={{height: "100%", width: "90%", paddingBottom: "2rem"}}
                          title={selectedProduct.name}/>
                 </Grid>

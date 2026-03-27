@@ -16,8 +16,6 @@ import {LOAD_HOME_PAGE} from "../../../actions/types";
 import {BadRequest} from "../../ui/error/badRequest";
 import {HOME_PAGE_DATA_API} from "../../../constants/api_routes";
 import {HOME_PAGE_API_OBJECT_LEN} from "../../../constants/constants"
-import {authServiceAPI} from "../../../api/service_api";
-import axios from "axios";
 import {Grid} from "@material-ui/core";
 
 const Home = props => {
@@ -33,19 +31,19 @@ const Home = props => {
         // Heroku so that it serves the requests quickly.
         // This should be removed when the app is deployed on actual server.
         props.setDefaultSearchSuggestions()
-        authServiceAPI.post('/authenticate').catch(err => {
-        })
-        if (process.env.REACT_APP_PAYMENT_SERVICE_URL) {
-            axios({
-                method: 'post',
-                url: `${process.env.REACT_APP_PAYMENT_SERVICE_URL}/payment`,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                data: "xyz"
-            }).catch(err => {
-            })
-        }
+        // authServiceAPI.post('/authenticate').catch(err => {
+        // })
+        // if (process.env.REACT_APP_PAYMENT_SERVICE_URL) {
+        //     axios({
+        //         method: 'post',
+        //         url: `${process.env.REACT_APP_PAYMENT_SERVICE_URL}/payment`,
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         data: "xyz"
+        //     }).catch(err => {
+        //     })
+        // }
         ///////////////////////////////////////////////////////////
 
 

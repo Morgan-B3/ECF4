@@ -1,6 +1,7 @@
 package com.ut.ecommerce.commondataservice.controller;
 
 import com.ut.ecommerce.commondataservice.dto.ProductInfoDTO;
+import com.ut.ecommerce.commondataservice.dto.SearchSuggestionItem;
 import com.ut.ecommerce.commondataservice.entity.sql.info.ProductInfo;
 import com.ut.ecommerce.commondataservice.model.FilterAttributesResponse;
 import com.ut.ecommerce.commondataservice.model.HomeTabsDataResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -107,5 +109,17 @@ public class CommonDataController {
         }
 
         return ResponseEntity.ok(searchSuggestionList);
+    }
+
+    @GetMapping("/default-search-suggestion")
+    public ResponseEntity<?> getDefaultSearchSuggestions() {
+        List<SearchSuggestionItem> suggestions = commonDataService.getDefaultSearchSuggestions();
+        return ResponseEntity.ok(suggestions);
+    }
+
+    @GetMapping(value = "/search-suggestion", params = "q")
+    public ResponseEntity<?> getSearchSuggestions(@RequestParam("q") String query) {
+        List<SearchSuggestionItem> suggestions = commonDataService.getSearchSuggestions(query);
+        return ResponseEntity.ok(suggestions);
     }
 }

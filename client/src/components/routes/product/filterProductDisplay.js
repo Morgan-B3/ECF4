@@ -6,6 +6,7 @@ import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import log from "loglevel";
 import {DETAILS_ROUTE, PRODUCTS_ROUTE} from "../../../constants/react_routes";
+import {handleImageError} from "../../../helper/imageHelper";
 import history from "../../../history";
 import {LOAD_FILTER_PRODUCTS, SELECT_PRODUCT_DETAIL} from "../../../actions/types";
 import {PRODUCT_BY_CATEGORY_DATA_API} from '../../../constants/api_routes';
@@ -94,6 +95,7 @@ const FilterProductDisplay = props => {
                             <Link to={`${DETAILS_ROUTE}${history.location.search}::product_id=${info.id}`}
                                   onClick={handleImageClick(info)}>
                                 <img src={info.imageURL} alt={info.name}
+                                     onError={(e) => handleImageError(e, 'product')}
                                      style={{height: "100%", width: "100%"}}
                                      title={info.name}/>
                             </Link>

@@ -3,6 +3,7 @@ import Swiper from 'react-id-swiper';
 import log from 'loglevel';
 import {useSelector} from "react-redux";
 import {BadRequest} from "../../ui/error/badRequest";
+import {handleImageError} from "../../../helper/imageHelper";
 
 const VerticalSlider = () => {
     const homeAPIData = useSelector(state => state.homePageDataReducer)
@@ -38,7 +39,7 @@ const VerticalSlider = () => {
         return imageList.map(({id, imageLocalPath, imageURL}) => {
             log.trace(`[VerticalSlider]: Rendering renderImageList imageList filePath = ${imageLocalPath}`)
             return (
-                <img key={id} src={imageURL} alt={imageLocalPath}/>
+                <img key={id} src={imageURL} alt={imageLocalPath} onError={(e) => handleImageError(e, 'category')}/>
             )
         });
     };

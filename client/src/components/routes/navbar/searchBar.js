@@ -53,7 +53,9 @@ function SearchBar(props) {
 
             log.info(`=======> queryLink = ${queryLink}, value = ${value}, history = ${JSON.stringify(history)}`)
             if (queryLink) {
-                history.push(`${PRODUCT_BY_CATEGORY_DATA_API}?q=${queryLink}::page=0,${MAX_PRODUCTS_PER_PAGE}`)
+                // Extract the query string part (after ?q=) to avoid nesting URLs
+                const queryString = queryLink.includes('?q=') ? queryLink.split('?q=')[1] : queryLink
+                history.push(`${PRODUCT_BY_CATEGORY_DATA_API}?q=${queryString}::page=0,${MAX_PRODUCTS_PER_PAGE}`)
             }
         }
     }

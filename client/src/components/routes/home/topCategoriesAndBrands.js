@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import log from 'loglevel';
 import {MAX_PRODUCTS_PER_PAGE} from "../../../constants/constants";
 import {useSelector} from "react-redux";
+import {handleImageError} from "../../../helper/imageHelper";
 
 const queryType = {
     brand: 1,
@@ -38,7 +39,7 @@ const TopCategoriesAndBrands = () => {
             return (
                 <Grid item xs={6} sm={2} key={info.title} style={{textAlign: "center"}}>
                     <Link to={`/products?q=${filterQuery}::page=0,${MAX_PRODUCTS_PER_PAGE}`}>
-                        <img src={info.imageURL} alt={info.imageLocalPath} style={{width: '80%', height: '100%'}}
+                        <img src={info.imageURL} alt={info.imageLocalPath} onError={(e) => handleImageError(e, 'brand')} style={{width: '80%', height: '100%'}}
                              title={info.title}/>
                     </Link>
                 </Grid>

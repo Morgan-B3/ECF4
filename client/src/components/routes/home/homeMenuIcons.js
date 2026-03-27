@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import log from 'loglevel';
 import {MAX_PRODUCTS_PER_PAGE} from "../../../constants/constants";
 import {useSelector} from "react-redux";
+import {handleImageError} from "../../../helper/imageHelper";
 
 const HomeMenuIcons = () => {
     const homeAPIData = useSelector(state => state.homePageDataReducer)
@@ -18,7 +19,7 @@ const HomeMenuIcons = () => {
             return (
                 <Grid key={info.id} item sm={2}>
                     <Link to={`/products?q=${info.link}::page=0,${MAX_PRODUCTS_PER_PAGE}`}>
-                        <img src={info.imageURL} alt={info.imageLocalPath} style={{width: '100%', height: '100%'}}
+                        <img src={info.imageURL} alt={info.imageLocalPath} onError={(e) => handleImageError(e, 'category')} style={{width: '100%', height: '100%'}}
                              title={info.link}/>
                     </Link>
                 </Grid>
