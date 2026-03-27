@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: ecf4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service
+          image: ecf4-payment-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8083
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: PAYMENT_PORT
+            - name: ACTIVE_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: ACTIVE_PROFILE
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: REDIS_PORT
+            - name: REDIS_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: REDIS_PASSWORD
+            - name: STRIPE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ecf4-secret
+                  key: STRIPE_SECRET_KEY

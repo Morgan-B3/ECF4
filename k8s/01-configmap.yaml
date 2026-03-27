@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecf4-config
+  namespace: ecf4
+data:
+  ACTIVE_PROFILE: dev
+  DB_HOST: mysql
+  DB_PORT: "3306"
+  DB_SCHEMA: ecommercedb
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD: ""
+  PAYMENT_PORT: "8083"
+  AUTH_PORT: "8081"
+  COMMON_DATA_PORT: "8082"

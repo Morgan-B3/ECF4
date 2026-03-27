@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication-service
+  namespace: ecf4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication-service
+  template:
+    metadata:
+      labels:
+        app: authentication-service
+    spec:
+      containers:
+        - name: authentication-service
+          image: ecf4-authentication-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: AUTH_PORT
+            - name: ACTIVE_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: ACTIVE_PROFILE
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: DB_PORT
+            - name: DB_SCHEMA
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: DB_SCHEMA
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ecf4-secret
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ecf4-secret
+                  key: DB_PASS
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: REDIS_PORT
+            - name: REDIS_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: ecf4-config
+                  key: REDIS_PASSWORD

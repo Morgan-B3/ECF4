@@ -164,23 +164,14 @@ public class CommonDataServiceImpl implements CommonDataService {
     }
 
     @Override
-    public List<SearchSuggestionItem> getDefaultSearchSuggestions() {
-        List<SearchSuggestionItem> suggestions = new ArrayList<>();
-        // Add some default suggestions, e.g., popular categories
-        suggestions.add(new SearchSuggestionItem("Men", "/products?q=gender=Men"));
-        suggestions.add(new SearchSuggestionItem("Women", "/products?q=gender=Women"));
-        suggestions.add(new SearchSuggestionItem("Shoes", "/products?q=apparel=Shoes"));
-        suggestions.add(new SearchSuggestionItem("Nike", "/products?q=brand=Nike"));
-        return suggestions;
-    }
-
-    @Override
     public List<SearchSuggestionItem> getSearchSuggestions(String prefix) {
         List<SearchSuggestionItem> suggestions = new ArrayList<>();
+
+        // Return empty list if prefix is null or empty
         if (prefix == null || prefix.trim().isEmpty()) {
-            return getDefaultSearchSuggestions();
+            return suggestions;
         }
-        // Simple implementation: filter products by name starting with prefix
+
         List<String> productNames = productInfoRepository.getProductByName();
         for (String name : productNames) {
             if (name.toLowerCase().startsWith(prefix.toLowerCase())) {
